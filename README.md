@@ -1,0 +1,4 @@
+SqliteExtensions
+================
+
+Useful sqlite extensions. 

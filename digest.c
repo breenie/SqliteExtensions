@@ -23,25 +23,25 @@ SQLITE_EXTENSION_INIT1
 static void sha1(
     sqlite3_context *context,
     int argc,
-    sqlite3_value **argv) 
+    sqlite3_value **argv)
 {
     char *orig = 0;
     orig = (char *)sqlite3_value_text(argv[0]);
-    
+
     int i = 0;
-    
+
 	unsigned char temp[SHA_DIGEST_LENGTH];
 	char hash[SHA_DIGEST_LENGTH*2];
-    
+
 	memset(hash, 0x0, SHA_DIGEST_LENGTH*2);
 	memset(temp, 0x0, SHA_DIGEST_LENGTH);
-    
+
 	SHA1((unsigned char *)orig, strlen(orig), temp);
-    
+
 	for (i=0; i < SHA_DIGEST_LENGTH; i++) {
 		sprintf((char*)&(hash[i*2]), "%02x", temp[i]);
 	}
-    
+
     sqlite3_result_text(context, hash, strlen(hash), (void*) -1);
 }
 
@@ -57,7 +57,7 @@ int sqlite3_extension_init(
   char **pzErrMsg,
   const sqlite3_api_routines *pApi
 ) {
-    SQLITE_EXTENSION_INIT2(pApi)
+    SQLITE_EXTENSION_INIT2(pApi);
     sqlite3_create_function(db, "sha1", 1, SQLITE_ANY, 0, sha1, 0, 0);
     return 0;
 }
